@@ -1,0 +1,1974 @@
+/* =========================================================
+   ULTRON VA — FUTURISTIC VOICE AGENT
+   ========================================================= */
+
+
+/* =========================================================
+   GLOBAL
+   ========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    background:
+        radial-gradient(
+            circle at 50% 35%,
+            rgba(120, 0, 0, 0.18),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(255, 70, 0, 0.08),
+            transparent 25%
+        ),
+        #050607;
+
+    color: #f5f5f5;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   APP LAYOUT
+   ========================================================= */
+
+.app {
+    width: 100vw;
+    height: 100vh;
+
+    display: grid;
+
+    grid-template-columns:
+        230px
+        minmax(500px, 1fr)
+        300px;
+
+    gap: 18px;
+
+    padding: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.025),
+            transparent 40%
+        );
+
+    perspective: 1600px;
+}
+
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.sidebar {
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 22px 16px;
+
+    border: 1px solid rgba(255, 50, 50, 0.18);
+
+    border-radius: 22px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(25, 25, 27, 0.96),
+            rgba(8, 9, 10, 0.94)
+        );
+
+    box-shadow:
+        0 25px 60px rgba(0, 0, 0, 0.55),
+        inset 0 1px rgba(255, 255, 255, 0.04);
+
+    transform:
+        perspective(1000px)
+        rotateY(2deg);
+
+    backdrop-filter: blur(20px);
+}
+
+
+/* =========================================================
+   BRAND
+   ========================================================= */
+
+.brand {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding-bottom: 24px;
+
+    border-bottom:
+        1px solid
+        rgba(255, 255, 255, 0.06);
+}
+
+
+.brand-icon {
+
+    width: 45px;
+    height: 45px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 13px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #260000,
+            #090909
+        );
+
+    border:
+        1px solid
+        rgba(255, 40, 40, 0.5);
+
+    box-shadow:
+        0 0 20px
+        rgba(255, 0, 0, 0.18);
+
+}
+
+
+.bot-face {
+
+    width: 25px;
+    height: 18px;
+
+    position: relative;
+
+    border:
+        2px solid
+        #ff2b2b;
+
+    border-radius: 5px;
+
+    box-shadow:
+        0 0 12px
+        rgba(255, 0, 0, 0.8);
+}
+
+
+.bot-face span {
+
+    position: absolute;
+
+    top: 5px;
+
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: #ff1c1c;
+
+    box-shadow:
+        0 0 8px #ff0000;
+}
+
+
+.bot-face span:first-child {
+    left: 4px;
+}
+
+.bot-face span:last-child {
+    right: 4px;
+}
+
+
+.brand-info h1 {
+
+    font-size: 17px;
+
+    letter-spacing: 2px;
+
+    color: #ffffff;
+}
+
+
+.brand-info p {
+
+    margin-top: 3px;
+
+    font-size: 9px;
+
+    letter-spacing: 2px;
+
+    color: #ff4a4a;
+}
+
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+.nav-menu {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+    margin-top: 25px;
+}
+
+
+.nav-item {
+
+    width: 100%;
+
+    padding: 13px 15px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    border: 1px solid transparent;
+
+    border-radius: 13px;
+
+    background: transparent;
+
+    color: #8e9197;
+
+    cursor: pointer;
+
+    text-align: left;
+
+    transition:
+        transform 0.25s ease,
+        color 0.25s ease,
+        background 0.25s ease,
+        border 0.25s ease;
+
+    font-size: 13px;
+}
+
+
+.nav-item:hover {
+
+    transform:
+        translateX(6px)
+        translateZ(10px);
+
+    color: #ffffff;
+
+    background:
+        rgba(255, 0, 0, 0.06);
+
+    border-color:
+        rgba(255, 0, 0, 0.16);
+}
+
+
+.nav-item.active {
+
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255, 0, 0, 0.18),
+            rgba(255, 0, 0, 0.025)
+        );
+
+    border:
+        1px solid
+        rgba(255, 40, 40, 0.28);
+
+    box-shadow:
+        inset 3px 0 #ff1e1e,
+        0 8px 25px
+        rgba(255, 0, 0, 0.08);
+}
+
+
+.nav-item .icon {
+
+    width: 25px;
+
+    text-align: center;
+
+    font-size: 17px;
+
+    color: #ff3838;
+}
+
+
+/* =========================================================
+   SIDEBAR STATUS
+   ========================================================= */
+
+.sidebar-status {
+
+    margin-top: auto;
+
+    padding: 14px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.07);
+
+    border-radius: 13px;
+
+    background:
+        rgba(255, 255, 255, 0.025);
+}
+
+
+.status-dot,
+.live-dot {
+
+    width: 8px;
+    height: 8px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #ff2929;
+
+    box-shadow:
+        0 0 10px
+        #ff0000;
+
+    animation:
+        pulseDot 1.6s infinite;
+}
+
+
+.sidebar-status strong {
+
+    display: block;
+
+    font-size: 10px;
+
+    letter-spacing: 1px;
+}
+
+
+.sidebar-status span {
+
+    display: block;
+
+    margin-top: 4px;
+
+    font-size: 9px;
+
+    color: #777b82;
+}
+
+
+.sidebar-footer {
+
+    margin-top: 16px;
+
+    text-align: center;
+
+    font-size: 8px;
+
+    letter-spacing: 2px;
+
+    color: #4e5157;
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+   ========================================================= */
+
+.main-content {
+
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 16px;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.top-header {
+
+    min-height: 76px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 5px 8px;
+}
+
+
+.eyebrow {
+
+    font-size: 8px;
+
+    letter-spacing: 3px;
+
+    color: #777b81;
+}
+
+
+.top-header h2 {
+
+    margin-top: 5px;
+
+    font-size: 27px;
+
+    letter-spacing: 5px;
+
+    font-weight: 800;
+}
+
+
+.top-header h2 span {
+
+    color: #ff2828;
+
+    text-shadow:
+        0 0 20px
+        rgba(255, 0, 0, 0.65);
+}
+
+
+.system-indicator {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    padding: 9px 13px;
+
+    border:
+        1px solid
+        rgba(255, 40, 40, 0.2);
+
+    border-radius: 20px;
+
+    background:
+        rgba(255, 0, 0, 0.04);
+
+    color: #aeb0b5;
+
+    font-size: 9px;
+
+    letter-spacing: 1.5px;
+}
+
+
+/* =========================================================
+   ULTRON SECTION
+   ========================================================= */
+
+.ultron-section {
+
+    position: relative;
+
+    flex: 1;
+
+    min-height: 300px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    overflow: hidden;
+
+    border:
+        1px solid
+        rgba(255, 50, 50, 0.12);
+
+    border-radius: 24px;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(100, 0, 0, 0.16),
+            transparent 52%
+        ),
+        linear-gradient(
+            145deg,
+            rgba(20, 21, 23, 0.96),
+            rgba(5, 6, 7, 0.98)
+        );
+
+    box-shadow:
+        0 30px 70px
+        rgba(0, 0, 0, 0.6),
+        inset 0 1px
+        rgba(255, 255, 255, 0.035);
+}
+
+
+/* =========================================================
+   ULTRON IMAGE CONTAINER
+   ========================================================= */
+
+.ultron-container {
+
+    position: relative;
+
+    width: min(360px, 42vh);
+
+    aspect-ratio: 1 / 1;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    transition:
+        transform 0.4s ease,
+        filter 0.4s ease;
+
+    transform:
+        perspective(900px)
+        translateZ(25px);
+}
+
+
+/* =========================================================
+   ULTRON IMAGE
+   ========================================================= */
+
+.ultron-image {
+
+    position: relative;
+
+    z-index: 3;
+
+    width: 82%;
+    height: 82%;
+
+    object-fit: cover;
+
+    border-radius: 50%;
+
+    border:
+        2px solid
+        rgba(255, 50, 50, 0.45);
+
+    box-shadow:
+        0 0 25px
+        rgba(255, 0, 0, 0.15),
+        0 25px 50px
+        rgba(0, 0, 0, 0.75);
+
+    filter:
+        contrast(1.12)
+        brightness(0.88)
+        saturate(0.9);
+
+    transition:
+        filter 0.35s ease,
+        transform 0.35s ease,
+        box-shadow 0.35s ease;
+}
+
+
+/* =========================================================
+   ULTRON OUTER GLOW
+   ========================================================= */
+
+.ultron-glow {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 1;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 0, 0, 0.16),
+            transparent 55%
+        );
+
+    filter: blur(18px);
+
+    opacity: 0.75;
+
+    animation:
+        corePulse 3s ease-in-out infinite;
+}
+
+
+/* =========================================================
+   ENERGY RINGS
+   ========================================================= */
+
+.ultron-container::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 94%;
+    height: 94%;
+
+    border-radius: 50%;
+
+    border:
+        1px solid
+        rgba(255, 30, 30, 0.22);
+
+    box-shadow:
+        0 0 30px
+        rgba(255, 0, 0, 0.08);
+
+    z-index: 0;
+
+    animation:
+        rotateRing 12s linear infinite;
+}
+
+
+.ultron-container::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 88%;
+    height: 88%;
+
+    border-radius: 50%;
+
+    border:
+        1px dashed
+        rgba(255, 80, 30, 0.16);
+
+    z-index: 0;
+
+    animation:
+        rotateRingReverse 18s linear infinite;
+}
+
+
+/* =========================================================
+   EYE GLOW
+   ========================================================= */
+
+.eye-glow {
+
+    position: absolute;
+
+    z-index: 5;
+
+    width: 30px;
+    height: 11px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            ellipse,
+            #ffffff 0%,
+            #ff4545 30%,
+            #ff0000 65%,
+            transparent 100%
+        );
+
+    filter:
+        blur(2px);
+
+    opacity: 0;
+
+    transform:
+        scale(0.8);
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+
+    pointer-events: none;
+}
+
+
+/*
+   These positions are intentionally approximate.
+
+   We will tune them after seeing your actual
+   ULTRON image in the browser.
+*/
+
+.left-eye {
+
+    left: 39%;
+
+    top: 42%;
+}
+
+
+.right-eye {
+
+    right: 39%;
+
+    top: 42%;
+}
+
+
+/* =========================================================
+   SPEAKING STATE
+   ========================================================= */
+
+.ultron-container.speaking {
+
+    transform:
+        perspective(900px)
+        translateZ(35px)
+        scale(1.015);
+}
+
+
+.ultron-container.speaking .ultron-image {
+
+    filter:
+        contrast(1.2)
+        brightness(0.95)
+        saturate(1.1);
+
+    box-shadow:
+        0 0 25px
+        rgba(255, 0, 0, 0.55),
+
+        0 0 65px
+        rgba(255, 0, 0, 0.28),
+
+        0 25px 50px
+        rgba(0, 0, 0, 0.75);
+}
+
+
+.ultron-container.speaking .eye-glow {
+
+    opacity: 1;
+
+    transform:
+        scale(1.35);
+
+    animation:
+        eyePulse 0.65s ease-in-out infinite alternate;
+}
+
+
+.ultron-container.speaking .ultron-glow {
+
+    opacity: 1;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 0, 0, 0.35),
+            rgba(255, 0, 0, 0.08) 40%,
+            transparent 68%
+        );
+
+    animation:
+        speakingGlow 0.8s ease-in-out infinite alternate;
+}
+
+
+/* =========================================================
+   SCAN LINE
+   ========================================================= */
+
+.scan-line {
+
+    position: absolute;
+
+    z-index: 6;
+
+    left: 18%;
+    right: 18%;
+
+    height: 1px;
+
+    top: 25%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 0, 0, 0.8),
+            transparent
+        );
+
+    opacity: 0.35;
+
+    box-shadow:
+        0 0 10px
+        rgba(255, 0, 0, 0.5);
+
+    animation:
+        scan 4s linear infinite;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   ULTRON TITLE
+   ========================================================= */
+
+.ultron-title {
+
+    position: relative;
+
+    z-index: 10;
+
+    margin-top: -3px;
+
+    text-align: center;
+}
+
+
+.system-label {
+
+    font-size: 8px;
+
+    letter-spacing: 3px;
+
+    color: #777b82;
+}
+
+
+.ultron-title h3 {
+
+    margin-top: 5px;
+
+    font-size: 23px;
+
+    letter-spacing: 8px;
+
+    color: #ffffff;
+
+    text-shadow:
+        0 0 20px
+        rgba(255, 0, 0, 0.3);
+}
+
+
+.ultron-title p {
+
+    margin-top: 5px;
+
+    font-size: 9px;
+
+    color: #696d74;
+
+    letter-spacing: 1px;
+}
+
+
+/* =========================================================
+   CHAT PANEL
+   ========================================================= */
+
+.chat-panel {
+
+    height: 270px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.08);
+
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(18, 19, 21, 0.98),
+            rgba(7, 8, 9, 0.98)
+        );
+
+    box-shadow:
+        0 20px 50px
+        rgba(0, 0, 0, 0.5),
+
+        inset 0 1px
+        rgba(255, 255, 255, 0.035);
+}
+
+
+/* =========================================================
+   PANEL HEADER
+   ========================================================= */
+
+.panel-header {
+
+    padding: 13px 17px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    border-bottom:
+        1px solid
+        rgba(255, 255, 255, 0.05);
+}
+
+
+.panel-label {
+
+    font-size: 8px;
+
+    letter-spacing: 2px;
+
+    color: #777b82;
+}
+
+
+.panel-header h3 {
+
+    margin-top: 3px;
+
+    font-size: 13px;
+
+    font-weight: 500;
+}
+
+
+.connection-status {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    font-size: 8px;
+
+    color: #6f747a;
+
+    letter-spacing: 1px;
+}
+
+
+.connection-status span {
+
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: #ff2929;
+
+    box-shadow:
+        0 0 8px
+        #ff0000;
+}
+
+
+/* =========================================================
+   MESSAGES
+   ========================================================= */
+
+.messages {
+
+    flex: 1;
+
+    overflow-y: auto;
+
+    padding: 13px 17px;
+
+    scrollbar-width: thin;
+
+    scrollbar-color:
+        rgba(255, 0, 0, 0.35)
+        transparent;
+}
+
+
+.message {
+
+    display: flex;
+
+    gap: 10px;
+
+    margin-bottom: 10px;
+}
+
+
+.avatar {
+
+    width: 28px;
+    height: 28px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 9px;
+
+    background:
+        rgba(255, 255, 255, 0.05);
+
+    color: #aaa;
+
+    font-size: 11px;
+}
+
+
+.echo-avatar {
+
+    color: #ff3333;
+
+    border:
+        1px solid
+        rgba(255, 0, 0, 0.3);
+
+    background:
+        rgba(255, 0, 0, 0.07);
+
+    box-shadow:
+        0 0 15px
+        rgba(255, 0, 0, 0.1);
+}
+
+
+.message-content small {
+
+    font-size: 8px;
+
+    letter-spacing: 1px;
+
+    color: #ff4a4a;
+}
+
+
+.message-content p {
+
+    margin-top: 3px;
+
+    font-size: 11px;
+
+    line-height: 1.5;
+
+    color: #c1c3c7;
+}
+
+
+/* =========================================================
+   VOICE CONTROL
+   ========================================================= */
+
+.voice-control {
+
+    position: relative;
+
+    min-height: 110px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-top:
+        1px solid
+        rgba(255, 255, 255, 0.05);
+}
+
+
+.assistant-status {
+
+    position: absolute;
+
+    top: 10px;
+
+    font-size: 8px;
+
+    letter-spacing: 1.5px;
+
+    color: #777b82;
+}
+
+
+/* =========================================================
+   WAVEFORM
+   ========================================================= */
+
+.waveform {
+
+    position: absolute;
+
+    bottom: 19px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 3px;
+
+    opacity: 0.4;
+}
+
+
+.waveform span {
+
+    width: 2px;
+
+    height: 8px;
+
+    background: #ff2828;
+
+    border-radius: 5px;
+}
+
+
+.waveform span:nth-child(2) {
+    height: 13px;
+}
+
+.waveform span:nth-child(3) {
+    height: 20px;
+}
+
+.waveform span:nth-child(4) {
+    height: 12px;
+}
+
+.waveform span:nth-child(5) {
+    height: 25px;
+}
+
+.waveform span:nth-child(6) {
+    height: 15px;
+}
+
+.waveform span:nth-child(7) {
+    height: 22px;
+}
+
+.waveform span:nth-child(8) {
+    height: 12px;
+}
+
+.waveform span:nth-child(9) {
+    height: 18px;
+}
+
+.waveform span:nth-child(10) {
+    height: 8px;
+}
+
+
+/* =========================================================
+   MICROPHONE
+   ========================================================= */
+
+.mic-button {
+
+    position: relative;
+
+    z-index: 5;
+
+    width: 58px;
+    height: 58px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid
+        rgba(255, 70, 70, 0.55);
+
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            #451010,
+            #120606 65%
+        );
+
+    color: #ff3434;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    box-shadow:
+        0 10px 25px
+        rgba(0, 0, 0, 0.5),
+
+        inset 0 0 15px
+        rgba(255, 0, 0, 0.1),
+
+        0 0 20px
+        rgba(255, 0, 0, 0.12);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.mic-button:hover {
+
+    transform:
+        scale(1.08)
+        translateZ(15px);
+
+    box-shadow:
+        0 0 25px
+        rgba(255, 0, 0, 0.35),
+
+        0 15px 30px
+        rgba(0, 0, 0, 0.6);
+}
+
+
+.mic-button:active {
+
+    transform:
+        scale(0.94);
+}
+
+
+.mic-icon {
+
+    font-size: 21px;
+
+    filter:
+        grayscale(1)
+        brightness(2);
+}
+
+
+.mic-hint {
+
+    position: absolute;
+
+    bottom: 5px;
+
+    font-size: 7px;
+
+    color: #555a60;
+
+    letter-spacing: 1px;
+}
+
+
+/* =========================================================
+   RIGHT PANEL
+   ========================================================= */
+
+.right-panel {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 13px;
+
+    padding: 4px;
+
+    overflow-y: auto;
+
+    scrollbar-width: none;
+}
+
+
+.right-panel::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* =========================================================
+   FLOATING CARDS
+   ========================================================= */
+
+.floating-card {
+
+    padding: 16px;
+
+    border-radius: 17px;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.08);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(24, 25, 27, 0.97),
+            rgba(8, 9, 10, 0.95)
+        );
+
+    box-shadow:
+        0 18px 35px
+        rgba(0, 0, 0, 0.45),
+
+        inset 0 1px
+        rgba(255, 255, 255, 0.04);
+
+    transform:
+        perspective(900px)
+        rotateY(-2deg)
+        translateZ(8px);
+
+    transition:
+        transform 0.3s ease,
+        border 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+
+.floating-card:hover {
+
+    transform:
+        perspective(900px)
+        rotateY(0deg)
+        translateY(-5px)
+        translateZ(20px);
+
+    border-color:
+        rgba(255, 30, 30, 0.3);
+
+    box-shadow:
+        0 25px 45px
+        rgba(0, 0, 0, 0.55),
+
+        0 0 25px
+        rgba(255, 0, 0, 0.06);
+}
+
+
+.card-header {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    font-size: 8px;
+
+    letter-spacing: 1.7px;
+
+    color: #72767d;
+}
+
+
+.card-icon {
+
+    width: 25px;
+    height: 25px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 7px;
+
+    background:
+        rgba(255, 0, 0, 0.08);
+
+    color: #ff3434;
+
+    font-size: 9px;
+
+    border:
+        1px solid
+        rgba(255, 0, 0, 0.16);
+}
+
+
+.card-main-value {
+
+    margin-top: 14px;
+
+    font-size: 20px;
+
+    letter-spacing: 2px;
+
+    color: #ffffff;
+}
+
+
+.card-description {
+
+    margin-top: 6px;
+
+    font-size: 9px;
+
+    line-height: 1.5;
+
+    color: #62666c;
+}
+
+
+.model-name {
+
+    margin-top: 13px;
+
+    font-size: 13px;
+
+    color: #eeeeee;
+}
+
+
+.model-status {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    margin-top: 12px;
+
+    font-size: 7px;
+
+    letter-spacing: 1px;
+
+    color: #6d7278;
+}
+
+
+.model-status span {
+
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: #ff3030;
+
+    box-shadow:
+        0 0 8px
+        #ff0000;
+}
+
+
+/* =========================================================
+   VOICE LEVEL
+   ========================================================= */
+
+.voice-level {
+
+    height: 22px;
+
+    margin-top: 12px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 3px;
+}
+
+
+.voice-level span {
+
+    width: 3px;
+
+    height: 8px;
+
+    border-radius: 3px;
+
+    background: #ff3030;
+
+    opacity: 0.7;
+
+    animation:
+        voiceBar 1s ease-in-out infinite alternate;
+}
+
+
+.voice-level span:nth-child(2) {
+    height: 14px;
+    animation-delay: 0.1s;
+}
+
+.voice-level span:nth-child(3) {
+    height: 20px;
+    animation-delay: 0.2s;
+}
+
+.voice-level span:nth-child(4) {
+    height: 12px;
+    animation-delay: 0.3s;
+}
+
+.voice-level span:nth-child(5) {
+    height: 17px;
+    animation-delay: 0.4s;
+}
+
+.voice-level span:nth-child(6) {
+    height: 9px;
+    animation-delay: 0.5s;
+}
+
+
+/* =========================================================
+   QUICK ACTIONS
+   ========================================================= */
+
+.quick-action {
+
+    width: 100%;
+
+    margin-top: 8px;
+
+    padding: 9px;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.06);
+
+    border-radius: 8px;
+
+    background:
+        rgba(255, 255, 255, 0.025);
+
+    color: #8b8f95;
+
+    font-size: 8px;
+
+    letter-spacing: 1px;
+
+    cursor: pointer;
+
+    transition:
+        0.2s ease;
+}
+
+
+.quick-action:hover {
+
+    color: #ffffff;
+
+    border-color:
+        rgba(255, 0, 0, 0.3);
+
+    background:
+        rgba(255, 0, 0, 0.08);
+
+    transform:
+        translateX(3px);
+}
+
+
+/* =========================================================
+   CORE STATUS
+   ========================================================= */
+
+.core-status {
+
+    margin-top: auto;
+
+    padding: 14px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    border:
+        1px solid
+        rgba(255, 0, 0, 0.12);
+
+    border-radius: 17px;
+
+    background:
+        rgba(255, 0, 0, 0.025);
+}
+
+
+.core-ring {
+
+    width: 45px;
+    height: 45px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    border:
+        1px solid
+        rgba(255, 30, 30, 0.45);
+
+    box-shadow:
+        0 0 20px
+        rgba(255, 0, 0, 0.1);
+
+    animation:
+        corePulse 2.5s ease-in-out infinite;
+}
+
+
+.core-center {
+
+    width: 27px;
+    height: 27px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        #160606;
+
+    color: #ff3030;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    box-shadow:
+        0 0 12px
+        rgba(255, 0, 0, 0.25);
+}
+
+
+.core-status strong {
+
+    display: block;
+
+    font-size: 9px;
+
+    letter-spacing: 1px;
+}
+
+
+.core-status span {
+
+    display: block;
+
+    margin-top: 4px;
+
+    font-size: 7px;
+
+    color: #5f6368;
+
+    letter-spacing: 1px;
+}
+
+
+/* =========================================================
+   ANIMATIONS
+   ========================================================= */
+
+@keyframes pulseDot {
+
+    0%,
+    100% {
+        opacity: 0.5;
+        transform: scale(0.85);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.15);
+    }
+}
+
+
+@keyframes corePulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.65;
+    }
+
+    50% {
+        transform: scale(1.04);
+        opacity: 1;
+    }
+}
+
+
+@keyframes speakingGlow {
+
+    from {
+        transform: scale(0.95);
+        opacity: 0.65;
+    }
+
+    to {
+        transform: scale(1.08);
+        opacity: 1;
+    }
+}
+
+
+@keyframes eyePulse {
+
+    from {
+        filter:
+            blur(2px)
+            brightness(1);
+    }
+
+    to {
+        filter:
+            blur(3px)
+            brightness(2);
+    }
+}
+
+
+@keyframes scan {
+
+    0% {
+        top: 22%;
+        opacity: 0;
+    }
+
+    15% {
+        opacity: 0.45;
+    }
+
+    85% {
+        opacity: 0.45;
+    }
+
+    100% {
+        top: 78%;
+        opacity: 0;
+    }
+}
+
+
+@keyframes rotateRing {
+
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+@keyframes rotateRingReverse {
+
+    from {
+        transform: rotate(360deg);
+    }
+
+    to {
+        transform: rotate(0deg);
+    }
+}
+
+
+@keyframes voiceBar {
+
+    from {
+        transform: scaleY(0.55);
+        opacity: 0.4;
+    }
+
+    to {
+        transform: scaleY(1);
+        opacity: 1;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1200px) {
+
+    .app {
+
+        grid-template-columns:
+            190px
+            minmax(400px, 1fr)
+            240px;
+    }
+
+    .ultron-container {
+
+        width: min(300px, 35vh);
+    }
+}
+
+
+@media (max-width: 900px) {
+
+    body {
+        overflow: auto;
+    }
+
+    .app {
+
+        min-height: 100vh;
+
+        height: auto;
+
+        grid-template-columns:
+            180px
+            1fr;
+
+        grid-template-rows: auto auto;
+
+    }
+
+    .right-panel {
+
+        grid-column: 1 / -1;
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .core-status {
+
+        margin-top: 0;
+    }
+}
+
+
+@media (max-width: 650px) {
+
+    .app {
+
+        display: flex;
+
+        flex-direction: column;
+
+        padding: 10px;
+    }
+
+    .sidebar {
+
+        transform: none;
+
+        flex-direction: row;
+
+        align-items: center;
+
+        overflow-x: auto;
+    }
+
+    .brand {
+
+        border: none;
+
+        padding: 0;
+    }
+
+    .nav-menu {
+
+        flex-direction: row;
+
+        margin: 0 0 0 auto;
+    }
+
+    .sidebar-status,
+    .sidebar-footer {
+
+        display: none;
+    }
+
+    .right-panel {
+
+        display: none;
+    }
+
+    .top-header h2 {
+
+        font-size: 21px;
+    }
+
+    .ultron-container {
+
+        width: 260px;
+    }
+
+    .chat-panel {
+
+        height: 300px;
+    }
+}
