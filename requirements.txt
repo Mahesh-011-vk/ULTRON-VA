@@ -1,0 +1,6 @@
+Flask
+flask-cors
+requests
+SpeechRecognition
+pyttsx3
+ollama
