@@ -4,3 +4,4 @@ requests
 SpeechRecognition
 pyttsx3
 ollama
+gunicorn
