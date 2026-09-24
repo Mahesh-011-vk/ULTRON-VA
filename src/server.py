@@ -2,10 +2,8 @@ from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 
 from ai_agent import ask_ai
-from commands import process_command
 
 import os
-
 
 app = Flask(
     __name__,
@@ -23,32 +21,25 @@ def home():
 
 @app.route("/api/chat", methods=["POST"])
 def chat():
+    data = request.get_json(silent=True) or {}
 
-    data = request.get_json()
+    message = data.get("message", "").strip()
 
-    command = data.get("message", "").strip()
-
-    if not command:
+    if not message:
         return jsonify({
             "response": "I didn't receive a message."
-        })
+        }), 400
 
-    response, should_exit = process_command(command)
-
-    # Unknown command → Local Llama
-    if response.startswith("You said"):
-        response = ask_ai(command)
+    response = ask_ai(message)
 
     return jsonify({
-        "response": response,
-        "should_exit": should_exit
+        "response": response
     })
 
 
 if __name__ == "__main__":
-
     print("===================================")
-    print("       ECHO VOICE AGENT")
+    print("           ULTRON VA")
     print("===================================")
     print("Server running at:")
     print("http://127.0.0.1:5000")

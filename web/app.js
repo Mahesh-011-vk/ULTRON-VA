@@ -1,239 +1,122 @@
+const statusText = document.getElementById("statusText");
+const ultronContainer = document.getElementById("ultronContainer");
+const micButton = document.getElementById("micButton");
+const stopVoiceButton = document.getElementById("stopVoiceButton");
+
+const homeNav = document.getElementById("homeNav");
+const chatNav = document.getElementById("chatNav");
+
+const chatPanel = document.getElementById("chatPanel");
+const conversation = document.getElementById("conversation");
+
+let recognition = null;
+let isListening = false;
+let voiceWasStopped = false;
+
+
 /* =========================================================
-   ULTRON VA — VOICE CONTROL
+   NAVIGATION
    ========================================================= */
 
-const micButton = document.getElementById("micButton");
-const statusText = document.querySelector(".assistant-status");
-const messagesContainer = document.querySelector(".messages");
+homeNav?.addEventListener("click", () => {
+    homeNav.classList.add("active");
+    chatNav?.classList.remove("active");
 
-const ultronContainer =
-    document.getElementById("ultronContainer");
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+});
 
-let listening = false;
+
+chatNav?.addEventListener("click", () => {
+    chatNav.classList.add("active");
+    homeNav?.classList.remove("active");
+
+    chatPanel?.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+});
 
 
 /* =========================================================
-   ADD MESSAGE
+   MESSAGE DISPLAY
    ========================================================= */
 
 function addMessage(sender, text, type) {
+    if (!conversation) {
+        return;
+    }
 
     const message = document.createElement("div");
 
-    message.className =
-        `message ${type}-message`;
-
-    const avatar =
-        type === "user" ? "M" : "U";
+    message.className = `message ${type}`;
 
     message.innerHTML = `
-        <div class="avatar ${
-            type === "assistant"
-                ? "echo-avatar"
-                : ""
-        }">
-            ${avatar}
-        </div>
-
         <div class="message-content">
-
-            <small>
-                ${sender}
-            </small>
-
-            <p>
-                ${text}
-            </p>
-
+            <strong>${sender}</strong>
+            <p>${escapeHtml(text)}</p>
         </div>
     `;
 
-    messagesContainer.appendChild(message);
+    conversation.appendChild(message);
 
-    messagesContainer.scrollTop =
-        messagesContainer.scrollHeight;
+    conversation.scrollTop = conversation.scrollHeight;
+}
+
+
+function escapeHtml(text) {
+    const div = document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
 }
 
 
 /* =========================================================
-   FIND MALE ULTRON VOICE
+   VOICE SELECTION
    ========================================================= */
 
 function getUltronVoice() {
+    if (!("speechSynthesis" in window)) {
+        return null;
+    }
 
-    const voices =
-        window.speechSynthesis.getVoices();
+    const voices = window.speechSynthesis.getVoices();
 
-    console.log(
-        "AVAILABLE VOICES:",
-        voices.map(v => `${v.name} — ${v.lang}`)
-    );
+    if (!voices.length) {
+        return null;
+    }
 
-
-    /* -----------------------------------------
-       1. STRONG MALE VOICE PREFERENCES
-       ----------------------------------------- */
-
-    const maleVoiceNames = [
-
-        "Daniel",
+    const preferredVoiceNames = [
         "Alex",
+        "Daniel",
         "Fred",
-
         "Google UK English Male",
-        "Google US English Male",
-
+        "Google US English",
         "Microsoft David",
-        "Microsoft Mark",
-        "Microsoft Guy",
-
-        "Arthur",
-        "Thomas",
-        "James",
-        "George",
-        "Oliver",
-        "Edward",
-        "Ryan",
-
-        "English Male"
+        "Microsoft Mark"
     ];
 
-
-    /* -----------------------------------------
-       2. SEARCH FOR KNOWN MALE VOICES
-       ----------------------------------------- */
-
-    for (const preferredName of maleVoiceNames) {
-
-        const voice =
-            voices.find(v =>
-                v.name
-                    .toLowerCase()
-                    .includes(
-                        preferredName.toLowerCase()
-                    )
-            );
+    for (const preferredName of preferredVoiceNames) {
+        const voice = voices.find(
+            item => item.name.includes(preferredName)
+        );
 
         if (voice) {
-
-            console.log(
-                "ULTRON MALE VOICE SELECTED:",
-                voice.name,
-                voice.lang
-            );
-
             return voice;
         }
     }
 
-
-    /* -----------------------------------------
-       3. MALE KEYWORD SEARCH
-       ----------------------------------------- */
-
-    const maleKeywords = [
-        "male",
-        "david",
-        "mark",
-        "guy",
-        "daniel",
-        "alex",
-        "fred",
-        "arthur",
-        "thomas",
-        "james",
-        "george",
-        "ryan",
-        "oliver",
-        "edward"
-    ];
-
-
-    const maleVoice =
-        voices.find(voice => {
-
-            const name =
-                voice.name.toLowerCase();
-
-            const language =
-                voice.lang.toLowerCase();
-
-            return (
-                language.startsWith("en") &&
-                maleKeywords.some(keyword =>
-                    name.includes(keyword)
-                )
-            );
-        });
-
-
-    if (maleVoice) {
-
-        console.log(
-            "ULTRON MALE KEYWORD VOICE:",
-            maleVoice.name
-        );
-
-        return maleVoice;
-    }
-
-
-    /* -----------------------------------------
-       4. MAC DEFAULT FALLBACK
-       ----------------------------------------- */
-
-    const fallbackNames = [
-        "Alex",
-        "Daniel",
-        "Fred"
-    ];
-
-    for (const name of fallbackNames) {
-
-        const voice =
-            voices.find(v =>
-                v.name
-                    .toLowerCase()
-                    .includes(
-                        name.toLowerCase()
-                    )
-            );
-
-        if (voice) {
-
-            console.log(
-                "ULTRON FALLBACK VOICE:",
-                voice.name
-            );
-
-            return voice;
-        }
-    }
-
-
-    /* -----------------------------------------
-       5. ENGLISH FALLBACK
-       ----------------------------------------- */
-
-    const englishVoice =
-        voices.find(v =>
-            v.lang
-                .toLowerCase()
-                .startsWith("en")
-        );
-
-    if (englishVoice) {
-
-        console.log(
-            "ULTRON ENGLISH FALLBACK:",
-            englishVoice.name
-        );
-
-        return englishVoice;
-    }
-
-
-    return null;
+    return voices.find(
+        voice =>
+            voice.lang.startsWith("en") &&
+            /male|david|daniel|alex|fred|mark/i.test(voice.name)
+    ) || voices.find(
+        voice => voice.lang.startsWith("en")
+    ) || voices[0];
 }
 
 
@@ -242,239 +125,127 @@ function getUltronVoice() {
    ========================================================= */
 
 function speak(text) {
-
     if (!("speechSynthesis" in window)) {
-
-        statusText.textContent =
-            "Speech synthesis unavailable";
-
+        statusText.textContent = "Speech synthesis unavailable";
         return;
     }
 
-
-    /* Stop previous speech */
-
     window.speechSynthesis.cancel();
 
+    voiceWasStopped = false;
 
-    const speech =
-        new SpeechSynthesisUtterance(text);
+    const speech = new SpeechSynthesisUtterance(text);
 
-
-    const voice =
-        getUltronVoice();
-
+    const voice = getUltronVoice();
 
     if (voice) {
-
         speech.voice = voice;
-
-        speech.lang =
-            voice.lang || "en-US";
-
+        speech.lang = voice.lang || "en-US";
     } else {
-
         speech.lang = "en-US";
     }
 
-
-    /* =====================================================
-       ULTRON VOICE SETTINGS
-       ===================================================== */
-
     speech.rate = 0.78;
-
     speech.pitch = 0.45;
-
     speech.volume = 1.0;
 
-
-    /* =====================================================
-       SPEAKING START
-       ===================================================== */
-
     speech.onstart = () => {
+        statusText.textContent = "ULTRON is speaking...";
 
-        console.log(
-            "ULTRON STARTED SPEAKING"
-        );
-
-        statusText.textContent =
-            "ULTRON is speaking...";
-
-
-        /* Red eye glow */
-
-        ultronContainer?.classList.add(
-            "speaking"
-        );
+        ultronContainer?.classList.add("speaking");
     };
-
-
-    /* =====================================================
-       SPEAKING END
-       ===================================================== */
 
     speech.onend = () => {
+        ultronContainer?.classList.remove("speaking");
 
-        console.log(
-            "ULTRON FINISHED SPEAKING"
-        );
-
-        statusText.textContent =
-            "Ready when you are";
-
-
-        ultronContainer?.classList.remove(
-            "speaking"
-        );
+        if (!voiceWasStopped) {
+            statusText.textContent = "Ready when you are";
+        }
     };
 
+    speech.onerror = error => {
+        console.error("ULTRON speech error:", error);
 
-    /* =====================================================
-       SPEECH ERROR
-       ===================================================== */
+        ultronContainer?.classList.remove("speaking");
 
-    speech.onerror = (error) => {
-
-        console.error(
-            "ULTRON SPEECH ERROR:",
-            error
-        );
-
-        statusText.textContent =
-            "Speech error";
-
-
-        ultronContainer?.classList.remove(
-            "speaking"
-        );
+        if (!voiceWasStopped) {
+            statusText.textContent = "Speech error";
+        }
     };
 
-
-    window.speechSynthesis.speak(
-        speech
-    );
+    window.speechSynthesis.speak(speech);
 }
 
 
 /* =========================================================
-   LOAD AVAILABLE VOICES
+   STOP VOICE
    ========================================================= */
 
-function showAvailableVoices() {
+stopVoiceButton?.addEventListener("click", () => {
+    if ("speechSynthesis" in window) {
+        voiceWasStopped = true;
+        window.speechSynthesis.cancel();
+    }
 
-    const voices =
-        window.speechSynthesis.getVoices();
+    ultronContainer?.classList.remove("speaking");
 
-    console.log(
-        "===================================="
-    );
-
-    console.log(
-        "ULTRON AVAILABLE VOICES"
-    );
-
-    console.log(
-        "===================================="
-    );
-
-    voices.forEach((voice, index) => {
-
-        console.log(
-            `${index + 1}. ${voice.name} | ${voice.lang}`
-        );
-    });
-
-    console.log(
-        "===================================="
-    );
-}
-
-
-window.speechSynthesis.onvoiceschanged =
-    () => {
-
-        showAvailableVoices();
-    };
+    statusText.textContent = "Voice stopped";
+});
 
 
 /* =========================================================
-   SEND MESSAGE TO PYTHON
+   SEND MESSAGE TO GEMINI
    ========================================================= */
 
 async function sendMessage(message) {
+    if (!message || !message.trim()) {
+        return;
+    }
+
+    const cleanMessage = message.trim();
+
+    statusText.textContent = "ULTRON is thinking...";
+
+    addMessage("YOU", cleanMessage, "user");
 
     try {
+        const response = await fetch("/api/chat", {
+            method: "POST",
 
-        statusText.textContent =
-            "ULTRON is thinking...";
+            headers: {
+                "Content-Type": "application/json"
+            },
 
-
-        const response =
-            await fetch(
-                "/api/chat",
-                {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body: JSON.stringify({
-                        message: message
-                    })
-                }
-            );
-
+            body: JSON.stringify({
+                message: cleanMessage
+            })
+        });
 
         if (!response.ok) {
-
             throw new Error(
-                "Server error"
+                `Server returned ${response.status}`
             );
         }
 
+        const data = await response.json();
 
-        const data =
-            await response.json();
-
-
-        addMessage(
-            "YOU",
-            message,
-            "user"
-        );
-
+        const answer =
+            data.response ||
+            "I received an empty response.";
 
         addMessage(
             "ULTRON VA",
-            data.response,
+            answer,
             "assistant"
         );
 
-
-        speak(
-            data.response
-        );
-
+        speak(answer);
 
     } catch (error) {
-
-        console.error(
-            "Backend error:",
-            error
-        );
-
-
-        statusText.textContent =
-            "Connection error";
-
+        console.error("Backend error:", error);
 
         const errorMessage =
             "Sorry. I could not connect to the ULTRON system.";
-
 
         addMessage(
             "ULTRON VA",
@@ -482,16 +253,15 @@ async function sendMessage(message) {
             "assistant"
         );
 
+        statusText.textContent = "Connection error";
 
-        speak(
-            errorMessage
-        );
+        speak(errorMessage);
     }
 }
 
 
 /* =========================================================
-   SPEECH RECOGNITION
+   VOICE RECOGNITION
    ========================================================= */
 
 const SpeechRecognition =
@@ -499,232 +269,140 @@ const SpeechRecognition =
     window.webkitSpeechRecognition;
 
 
-if (!SpeechRecognition) {
+if (SpeechRecognition) {
+    recognition = new SpeechRecognition();
 
-    statusText.textContent =
-        "Speech recognition not supported";
+    recognition.lang = "en-IN";
 
-    console.error(
-        "SpeechRecognition API is not supported."
-    );
+    recognition.continuous = false;
 
-} else {
-
-    const recognition =
-        new SpeechRecognition();
-
-
-    recognition.lang =
-        "en-IN";
-
-
-    recognition.continuous =
-        false;
-
-
-    recognition.interimResults =
-        false;
-
-
-    recognition.maxAlternatives =
-        1;
-
+    recognition.interimResults = false;
 
     recognition.onstart = () => {
-
-        listening = true;
-
+        isListening = true;
 
         statusText.textContent =
             "Listening...";
 
-
-        micButton.style.transform =
-            "scale(1.12)";
-
-
-        console.log(
-            "ULTRON MICROPHONE STARTED"
-        );
+        micButton?.classList.add("listening");
     };
 
 
-    recognition.onresult =
-        (event) => {
+    recognition.onresult = event => {
+        const transcript =
+            event.results[0][0].transcript.trim();
 
-            const transcript =
-                event
-                    .results[0][0]
-                    .transcript;
+        console.log(
+            "USER SAID:",
+            transcript
+        );
 
-
-            console.log(
-                "YOU SAID:",
-                transcript
-            );
-
-
-            statusText.textContent =
-                "Processing...";
+        if (transcript) {
+            sendMessage(transcript);
+        }
+    };
 
 
-            if (
-                transcript.trim()
-            ) {
+    recognition.onerror = event => {
+        console.error(
+            "Speech recognition error:",
+            event.error
+        );
 
-                sendMessage(
-                    transcript
-                );
-            }
-        };
+        isListening = false;
 
+        micButton?.classList.remove("listening");
 
-    recognition.onerror =
-        (event) => {
-
-            console.error(
-                "Speech recognition error:",
-                event.error
-            );
-
-
-            if (
-                event.error ===
-                "not-allowed"
-            ) {
-
-                statusText.textContent =
-                    "Microphone permission denied";
-
-            } else if (
-                event.error ===
-                "no-speech"
-            ) {
-
-                statusText.textContent =
-                    "I didn't hear anything";
-
-            } else if (
-                event.error ===
-                "network"
-            ) {
-
-                statusText.textContent =
-                    "Speech service unavailable";
-
-            } else {
-
-                statusText.textContent =
-                    "Microphone error";
-            }
-        };
+        statusText.textContent =
+            "Voice recognition error";
+    };
 
 
     recognition.onend = () => {
+        isListening = false;
 
-        listening = false;
-
-
-        micButton.style.transform =
-            "scale(1)";
-
+        micButton?.classList.remove("listening");
 
         if (
             statusText.textContent ===
             "Listening..."
         ) {
-
             statusText.textContent =
                 "Ready when you are";
         }
-
-
-        console.log(
-            "ULTRON MICROPHONE STOPPED"
-        );
     };
-
-
-    micButton.addEventListener(
-        "click",
-        () => {
-
-            if (listening) {
-
-                recognition.stop();
-
-                return;
-            }
-
-
-            try {
-
-                recognition.start();
-
-            } catch (error) {
-
-                console.error(
-                    "Could not start microphone:",
-                    error
-                );
-            }
-        }
-    );
 }
+
+
+/* =========================================================
+   MICROPHONE BUTTON
+   ========================================================= */
+
+micButton?.addEventListener("click", () => {
+    if (!recognition) {
+        statusText.textContent =
+            "Voice recognition is unavailable";
+
+        return;
+    }
+
+    if (isListening) {
+        recognition.stop();
+        return;
+    }
+
+    try {
+        recognition.start();
+    } catch (error) {
+        console.error(
+            "Could not start recognition:",
+            error
+        );
+    }
+});
 
 
 /* =========================================================
    QUICK ACTIONS
    ========================================================= */
 
-const quickActions =
-    document.querySelectorAll(
-        ".quick-action"
-    );
+const youtubeButton =
+    document.getElementById("youtubeButton");
+
+const googleButton =
+    document.getElementById("googleButton");
+
+const githubButton =
+    document.getElementById("githubButton");
 
 
-quickActions.forEach(button => {
-
-    button.addEventListener(
-        "click",
-        () => {
-
-            const action =
-                button.textContent
-                    .trim()
-                    .toLowerCase();
+youtubeButton?.addEventListener(
+    "click",
+    () => sendMessage("Open YouTube")
+);
 
 
-            if (
-                action.includes(
-                    "youtube"
-                )
-            ) {
+googleButton?.addEventListener(
+    "click",
+    () => sendMessage("Open Google")
+);
 
-                sendMessage(
-                    "Open YouTube"
-                );
 
-            } else if (
-                action.includes(
-                    "google"
-                )
-            ) {
+githubButton?.addEventListener(
+    "click",
+    () => sendMessage("Open GitHub")
+);
 
-                sendMessage(
-                    "Open Google"
-                );
 
-            } else if (
-                action.includes(
-                    "github"
-                )
-            ) {
+/* =========================================================
+   LOAD BROWSER VOICES
+   ========================================================= */
 
-                sendMessage(
-                    "Open GitHub"
-                );
-            }
-        }
-    );
-});
+if ("speechSynthesis" in window) {
+    window.speechSynthesis.onvoiceschanged = () => {
+        window.speechSynthesis.getVoices();
+    };
+}
+
+
+console.log("ULTRON VA frontend loaded.");

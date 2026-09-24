@@ -1,376 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <title>ULTRON VA</title>
 
-    <title>ULTRON VA — Advanced Voice Agent</title>
-
-    <link
-        rel="stylesheet"
-        href="/style.css"
-    >
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- ========================================= -->
-    <!-- APPLICATION -->
-    <!-- ========================================= -->
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
 
-    <div class="app">
+    <header class="topbar">
 
+        <div class="brand">
+            <span class="brand-dot"></span>
+            <span>ULTRON VA</span>
+        </div>
 
-        <!-- ===================================== -->
-        <!-- SIDEBAR -->
-        <!-- ===================================== -->
+        <nav class="nav-menu">
 
-        <aside class="sidebar">
+            <button
+                id="homeNav"
+                class="nav-item active"
+                type="button"
+            >
+                <span class="icon">⌂</span>
+                <span class="text">Home</span>
+            </button>
 
-            <!-- BRAND -->
-            <div class="brand">
+            <button
+                id="chatNav"
+                class="nav-item"
+                type="button"
+            >
+                <span class="icon">◉</span>
+                <span class="text">Chat</span>
+            </button>
 
-                <div class="brand-icon">
-                    <div class="bot-face">
-                        <span></span>
-                        <span></span>
-                    </div>
-                </div>
+        </nav>
 
-                <div class="brand-info">
+        <div class="system-status">
+            <span class="status-dot"></span>
+            <span id="statusText">Ready when you are</span>
+        </div>
 
-                    <h1>ULTRON VA</h1>
-
-                    <p>VOICE AGENT</p>
-
-                </div>
-
-            </div>
-
-
-            <!-- NAVIGATION -->
-
-            <nav class="nav-menu">
-
-                <button
-                    class="nav-item active"
-                    type="button"
-                >
-
-                    <span class="icon">⌂</span>
-
-                    <span class="text">
-                        Home
-                    </span>
-
-                </button>
+    </header>
 
 
-                <button
-                    class="nav-item"
-                    type="button"
-                >
+    <!-- =====================================================
+         MAIN
+         ===================================================== -->
 
-                    <span class="icon">◉</span>
+    <main class="main-container">
 
-                    <span class="text">
-                        Chat
-                    </span>
+        <!-- HERO -->
 
-                </button>
+        <section class="hero-section">
 
+            <div class="hero-content">
 
-                <button
-                    class="nav-item"
-                    type="button"
-                >
+                <p class="eyebrow">
+                    ADVANCED CLOUD VOICE INTELLIGENCE
+                </p>
 
-                    <span class="icon">⚙</span>
+                <h1>
+                    ULTRON
+                    <span>VA</span>
+                </h1>
 
-                    <span class="text">
-                        Tools
-                    </span>
+                <p class="hero-description">
+                    Your intelligent voice-controlled AI assistant,
+                    powered by Gemini.
+                </p>
 
-                </button>
+                <div class="hero-status">
 
-
-                <button
-                    class="nav-item"
-                    type="button"
-                >
-
-                    <span class="icon">◆</span>
-
-                    <span class="text">
-                        Settings
-                    </span>
-
-                </button>
-
-            </nav>
-
-
-            <!-- SYSTEM STATUS -->
-
-            <div class="sidebar-status">
-
-                <div class="status-dot"></div>
-
-                <div>
-
-                    <strong>SYSTEM ONLINE</strong>
-
-                    <span>Local AI Connected</span>
-
-                </div>
-
-            </div>
-
-
-            <!-- VERSION -->
-
-            <div class="sidebar-footer">
-
-                ULTRON VA v1.0
-
-            </div>
-
-        </aside>
-
-
-
-        <!-- ===================================== -->
-        <!-- MAIN CONTENT -->
-        <!-- ===================================== -->
-
-        <main class="main-content">
-
-
-            <!-- ================================= -->
-            <!-- TOP HEADER -->
-            <!-- ================================= -->
-
-            <header class="top-header">
-
-                <div>
-
-                    <p class="eyebrow">
-                        ADVANCED VOICE INTELLIGENCE
-                    </p>
-
-                    <h2>
-                        ULTRON
-                        <span>VA</span>
-                    </h2>
-
-                </div>
-
-
-                <div class="system-indicator">
-
-                    <span class="live-dot"></span>
+                    <span class="pulse"></span>
 
                     <span>
-                        SYSTEM ONLINE
+                        GEMINI AI CONNECTED
                     </span>
 
                 </div>
 
-            </header>
+            </div>
 
 
+            <!-- ULTRON IMAGE -->
 
-            <!-- ================================= -->
-            <!-- ULTRON CORE -->
-            <!-- ================================= -->
-
-            <section
-                class="ultron-section"
-                id="ultronSection"
+            <div
+                id="ultronContainer"
+                class="ultron-container"
             >
 
+                <div class="ultron-glow"></div>
 
-                <!-- ULTRON IMAGE CONTAINER -->
-
-                <div
-                    class="ultron-container"
-                    id="ultronContainer"
+                <img
+                    src="assets/ultron.jpg"
+                    alt="ULTRON"
+                    class="ultron-image"
                 >
 
-                    <!-- ENERGY AURA -->
+            </div>
 
-                    <div
-                        class="ultron-glow"
-                        id="ultronGlow"
-                    ></div>
+        </section>
 
 
-                    <!-- ULTRON IMAGE -->
+        <!-- =================================================
+             VOICE CONTROL
+             ================================================= -->
 
-                    <img
-                        src="/assets/ultron.jpg"
-                        class="ultron-image"
-                        id="ultronImage"
-                        alt="ULTRON"
-                    >
+        <section class="voice-section">
 
+            <div class="voice-card">
 
-                    <!-- LEFT EYE -->
+                <div class="voice-card-header">
 
-                    <div
-                        class="eye-glow left-eye"
-                        id="leftEye"
-                    ></div>
-
-
-                    <!-- RIGHT EYE -->
-
-                    <div
-                        class="eye-glow right-eye"
-                        id="rightEye"
-                    ></div>
-
-
-                    <!-- SCAN LINE -->
-
-                    <div class="scan-line"></div>
-
-                </div>
-
-
-                <!-- ULTRON TITLE -->
-
-                <div class="ultron-title">
-
-                    <span class="system-label">
-                        ARTIFICIAL INTELLIGENCE CORE
+                    <span class="section-label">
+                        VOICE CONTROL
                     </span>
 
-                    <h3>
-                        ULTRON
-                    </h3>
-
-                    <p>
-                        Advanced Local Voice Intelligence
-                    </p>
-
-                </div>
-
-            </section>
-
-
-
-            <!-- ================================= -->
-            <!-- CHAT PANEL -->
-            <!-- ================================= -->
-
-            <section class="chat-panel">
-
-
-                <!-- PANEL HEADER -->
-
-                <div class="panel-header">
-
-                    <div>
-
-                        <span class="panel-label">
-                            CONVERSATION
-                        </span>
-
-                        <h3>
-                            Neural Interface
-                        </h3>
-
-                    </div>
-
-
-                    <div class="connection-status">
-
-                        <span></span>
-
-                        CONNECTED
-
-                    </div>
+                    <span class="connection-label">
+                        CLOUD MODEL
+                    </span>
 
                 </div>
 
 
-
-                <!-- MESSAGES -->
-
-                <div class="messages">
-
-
-                    <!-- SYSTEM MESSAGE -->
-
-                    <div class="message assistant-message">
-
-                        <div class="avatar echo-avatar">
-                            U
-                        </div>
-
-                        <div class="message-content">
-
-                            <small>
-                                ULTRON VA
-                            </small>
-
-                            <p>
-                                System initialized.
-                                I am ULTRON VA.
-                                How can I assist you?
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                </div>
-
-
-
-                <!-- ================================= -->
-                <!-- VOICE CONTROL -->
-                <!-- ================================= -->
-
-                <div class="voice-control">
-
-
-                    <!-- STATUS -->
-
-                    <div class="assistant-status">
-                        Ready when you are
-                    </div>
-
-
-                    <!-- WAVEFORM -->
-
-                    <div
-                        class="waveform"
-                        id="waveform"
-                    >
-
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-
-                    </div>
-
-
-                    <!-- MICROPHONE -->
+                <div class="voice-center">
 
                     <button
                         id="micButton"
@@ -378,231 +140,220 @@
                         type="button"
                         aria-label="Activate microphone"
                     >
-
-                        <span class="mic-icon">
-                            🎙
-                        </span>
-
+                        <span class="mic-icon">🎙</span>
                     </button>
 
-
-                    <p class="mic-hint">
-                        Click to speak
+                    <p class="voice-instruction">
+                        Press the microphone and speak to ULTRON
                     </p>
 
-                </div>
-
-
-            </section>
-
-
-        </main>
-
-
-
-        <!-- ===================================== -->
-        <!-- RIGHT FLOATING CONTROL PANEL -->
-        <!-- ===================================== -->
-
-        <aside class="right-panel">
-
-
-            <!-- STATUS CARD -->
-
-            <div class="floating-card status-card">
-
-                <div class="card-header">
-
-                    <span class="card-icon">
-                        ◉
-                    </span>
-
-                    <span>
-                        SYSTEM
-                    </span>
-
-                </div>
-
-
-                <div class="card-main-value">
-                    ONLINE
-                </div>
-
-
-                <div class="card-description">
-                    All systems operational
-                </div>
-
-            </div>
-
-
-
-            <!-- AI MODEL CARD -->
-
-            <div class="floating-card">
-
-                <div class="card-header">
-
-                    <span class="card-icon">
-                        AI
-                    </span>
-
-                    <span>
-                        LOCAL MODEL
-                    </span>
-
-                </div>
-
-
-                <div class="model-name">
-                    Llama 3.2:3B
-                </div>
-
-
-                <div class="card-description">
-                    Running locally through Ollama
-                </div>
-
-
-                <div class="model-status">
-
-                    <span></span>
-
-                    ACTIVE
+                    <button
+                        id="stopVoiceButton"
+                        class="stop-voice-button"
+                        type="button"
+                        aria-label="Stop ULTRON voice"
+                    >
+                        <span>■</span>
+                        STOP VOICE
+                    </button>
 
                 </div>
 
             </div>
 
+        </section>
 
 
-            <!-- VOICE CARD -->
+        <!-- =================================================
+             QUICK ACTIONS
+             ================================================= -->
 
-            <div class="floating-card">
+        <section class="actions-section">
 
-                <div class="card-header">
+            <div class="section-heading">
 
-                    <span class="card-icon">
-                        ♪
-                    </span>
+                <p class="eyebrow">
+                    QUICK COMMANDS
+                </p>
 
-                    <span>
-                        VOICE ENGINE
-                    </span>
-
-                </div>
-
-
-                <div class="model-name">
-                    Deep Male Voice
-                </div>
-
-
-                <div class="card-description">
-                    Natural speech synthesis
-                </div>
-
-
-                <div class="voice-level">
-
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-
-                </div>
+                <h2>
+                    What can I do for you?
+                </h2>
 
             </div>
 
 
-
-            <!-- QUICK ACTIONS -->
-
-            <div class="floating-card">
-
-                <div class="card-header">
-
-                    <span class="card-icon">
-                        ⚡
-                    </span>
-
-                    <span>
-                        QUICK ACTIONS
-                    </span>
-
-                </div>
-
+            <div class="action-grid">
 
                 <button
-                    class="quick-action"
+                    id="youtubeButton"
+                    class="action-card"
                     type="button"
                 >
-                    OPEN YOUTUBE
+                    <span class="action-icon">▶</span>
+
+                    <span class="action-title">
+                        YouTube
+                    </span>
+
+                    <span class="action-description">
+                        Open YouTube
+                    </span>
                 </button>
 
 
                 <button
-                    class="quick-action"
+                    id="googleButton"
+                    class="action-card"
                     type="button"
                 >
-                    OPEN GOOGLE
+                    <span class="action-icon">G</span>
+
+                    <span class="action-title">
+                        Google
+                    </span>
+
+                    <span class="action-description">
+                        Search the web
+                    </span>
                 </button>
 
 
                 <button
-                    class="quick-action"
+                    id="githubButton"
+                    class="action-card"
                     type="button"
                 >
-                    OPEN GITHUB
+                    <span class="action-icon">◉</span>
+
+                    <span class="action-title">
+                        GitHub
+                    </span>
+
+                    <span class="action-description">
+                        Open GitHub
+                    </span>
                 </button>
 
             </div>
 
+        </section>
 
 
-            <!-- CORE STATUS -->
+        <!-- =================================================
+             CHAT
+             ================================================= -->
 
-            <div class="core-status">
+        <section
+            id="chatPanel"
+            class="chat-panel"
+        >
 
-                <div class="core-ring">
+            <div class="section-heading">
 
-                    <div class="core-center">
-                        U
+                <p class="eyebrow">
+                    ULTRON CONVERSATION
+                </p>
+
+                <h2>
+                    Chat
+                </h2>
+
+            </div>
+
+
+            <div
+                id="conversation"
+                class="conversation"
+            >
+
+                <div class="message assistant">
+
+                    <div class="message-content">
+
+                        <strong>
+                            ULTRON VA
+                        </strong>
+
+                        <p>
+                            ULTRON systems online. Press the microphone
+                            and speak when you're ready.
+                        </p>
+
                     </div>
 
                 </div>
 
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             SYSTEM INFORMATION
+             ================================================= -->
+
+        <section class="system-section">
+
+            <div class="system-card">
 
                 <div>
-
-                    <strong>
-                        ULTRON CORE
-                    </strong>
-
-                    <span>
-                        LOCAL PROCESSING
+                    <span class="system-label">
+                        AI ENGINE
                     </span>
 
+                    <strong>
+                        Gemini 2.5 Flash
+                    </strong>
+                </div>
+
+
+                <div>
+                    <span class="system-label">
+                        PROCESSING
+                    </span>
+
+                    <strong>
+                        GEMINI CLOUD
+                    </strong>
+                </div>
+
+
+                <div>
+                    <span class="system-label">
+                        VOICE
+                    </span>
+
+                    <strong>
+                        BROWSER SPEECH
+                    </strong>
                 </div>
 
             </div>
 
+        </section>
 
-        </aside>
-
-
-    </div>
+    </main>
 
 
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
 
-    <!-- ========================================= -->
-    <!-- JAVASCRIPT -->
-    <!-- ========================================= -->
+    <footer class="footer">
 
-    <script src="/app.js"></script>
+        <span>
+            ULTRON VA
+        </span>
+
+        <span>
+            CLOUD AI SYSTEM
+        </span>
+
+    </footer>
+
+
+    <script src="app.js"></script>
 
 </body>
-
 </html>

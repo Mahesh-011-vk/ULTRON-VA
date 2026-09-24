@@ -5,3 +5,6 @@ SpeechRecognition
 pyttsx3
 ollama
 gunicorn
+
+google-genai
+python-dotenv
