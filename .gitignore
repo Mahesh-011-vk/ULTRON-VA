@@ -1,19 +1,24 @@
 # Python
 __pycache__/
 *.py[cod]
+*$py.class
 *.pyo
 
 # Virtual environment
 venv/
+env/
 .env
 .env.*
 !.env.example
 
+# Backups & local archives
+backup_before_reset/
+*.log
+
 # macOS
 .DS_Store
 
-# VS Code
+# IDE & Editor
 .vscode/
-
-# Jupyter
+.idea/
 .ipynb_checkpoints/

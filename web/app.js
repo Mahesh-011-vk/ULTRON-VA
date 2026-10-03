@@ -8,6 +8,8 @@ const chatNav = document.getElementById("chatNav");
 
 const chatPanel = document.getElementById("chatPanel");
 const conversation = document.getElementById("conversation");
+const chatForm = document.getElementById("chatForm");
+const chatInput = document.getElementById("chatInput");
 
 let recognition = null;
 let isListening = false;
@@ -37,6 +39,7 @@ chatNav?.addEventListener("click", () => {
         behavior: "smooth",
         block: "start"
     });
+    chatInput?.focus();
 });
 
 
@@ -50,33 +53,29 @@ function addMessage(sender, text, type) {
     }
 
     const message = document.createElement("div");
-
     message.className = `message ${type}`;
 
     message.innerHTML = `
         <div class="message-content">
-            <strong>${sender}</strong>
+            <strong>${escapeHtml(sender)}</strong>
             <p>${escapeHtml(text)}</p>
         </div>
     `;
 
     conversation.appendChild(message);
-
     conversation.scrollTop = conversation.scrollHeight;
 }
 
 
 function escapeHtml(text) {
     const div = document.createElement("div");
-
     div.textContent = text;
-
     return div.innerHTML;
 }
 
 
 /* =========================================================
-   VOICE SELECTION
+   VOICE SELECTION & SYNTHESIS
    ========================================================= */
 
 function getUltronVoice() {
@@ -85,7 +84,6 @@ function getUltronVoice() {
     }
 
     const voices = window.speechSynthesis.getVoices();
-
     if (!voices.length) {
         return null;
     }
@@ -101,41 +99,33 @@ function getUltronVoice() {
     ];
 
     for (const preferredName of preferredVoiceNames) {
-        const voice = voices.find(
-            item => item.name.includes(preferredName)
-        );
-
+        const voice = voices.find(item => item.name.includes(preferredName));
         if (voice) {
             return voice;
         }
     }
 
-    return voices.find(
-        voice =>
-            voice.lang.startsWith("en") &&
-            /male|david|daniel|alex|fred|mark/i.test(voice.name)
-    ) || voices.find(
-        voice => voice.lang.startsWith("en")
-    ) || voices[0];
+    return (
+        voices.find(v => v.lang.startsWith("en") && /male|david|daniel|alex|fred|mark/i.test(v.name)) ||
+        voices.find(v => v.lang.startsWith("en")) ||
+        voices[0]
+    );
 }
 
 
-/* =========================================================
-   ULTRON SPEECH
-   ========================================================= */
-
 function speak(text) {
     if (!("speechSynthesis" in window)) {
-        statusText.textContent = "Speech synthesis unavailable";
+        if (statusText) statusText.textContent = "Speech synthesis unavailable";
         return;
     }
 
-    window.speechSynthesis.cancel();
+    try {
+        window.speechSynthesis.cancel();
+    } catch (e) {}
 
     voiceWasStopped = false;
 
     const speech = new SpeechSynthesisUtterance(text);
-
     const voice = getUltronVoice();
 
     if (voice) {
@@ -145,31 +135,28 @@ function speak(text) {
         speech.lang = "en-US";
     }
 
-    speech.rate = 0.78;
-    speech.pitch = 0.45;
+    // Ultron characteristic deep, crisp tone
+    speech.rate = 0.85;
+    speech.pitch = 0.50;
     speech.volume = 1.0;
 
     speech.onstart = () => {
-        statusText.textContent = "ULTRON is speaking...";
-
+        if (statusText) statusText.textContent = "ULTRON is speaking...";
         ultronContainer?.classList.add("speaking");
     };
 
     speech.onend = () => {
         ultronContainer?.classList.remove("speaking");
-
-        if (!voiceWasStopped) {
+        if (!voiceWasStopped && statusText) {
             statusText.textContent = "Ready when you are";
         }
     };
 
     speech.onerror = error => {
         console.error("ULTRON speech error:", error);
-
         ultronContainer?.classList.remove("speaking");
-
-        if (!voiceWasStopped) {
-            statusText.textContent = "Speech error";
+        if (!voiceWasStopped && statusText) {
+            statusText.textContent = "Ready when you are";
         }
     };
 
@@ -186,15 +173,13 @@ stopVoiceButton?.addEventListener("click", () => {
         voiceWasStopped = true;
         window.speechSynthesis.cancel();
     }
-
     ultronContainer?.classList.remove("speaking");
-
-    statusText.textContent = "Voice stopped";
+    if (statusText) statusText.textContent = "Voice stopped";
 });
 
 
 /* =========================================================
-   SEND MESSAGE TO GEMINI
+   SEND MESSAGE / COMMAND DISPATCH
    ========================================================= */
 
 async function sendMessage(message) {
@@ -203,61 +188,98 @@ async function sendMessage(message) {
     }
 
     const cleanMessage = message.trim();
-
-    statusText.textContent = "ULTRON is thinking...";
+    const lowerMessage = cleanMessage.toLowerCase();
 
     addMessage("YOU", cleanMessage, "user");
+
+    // Local quick command handling
+    if (lowerMessage === "open youtube" || lowerMessage.includes("open youtube")) {
+        window.open("https://www.youtube.com", "_blank", "noopener,noreferrer");
+        const reply = "Opening YouTube for you.";
+        addMessage("ULTRON VA", reply, "assistant");
+        speak(reply);
+        return;
+    }
+
+    if (lowerMessage === "open google" || lowerMessage.includes("open google")) {
+        window.open("https://www.google.com", "_blank", "noopener,noreferrer");
+        const reply = "Opening Google Search.";
+        addMessage("ULTRON VA", reply, "assistant");
+        speak(reply);
+        return;
+    }
+
+    if (lowerMessage === "open github" || lowerMessage.includes("open github")) {
+        window.open("https://github.com/Mahesh-011-vk/ULTRON-VA", "_blank", "noopener,noreferrer");
+        const reply = "Opening the ULTRON VA GitHub repository.";
+        addMessage("ULTRON VA", reply, "assistant");
+        speak(reply);
+        return;
+    }
+
+    if (lowerMessage === "what time is it" || lowerMessage === "time" || lowerMessage.includes("current time")) {
+        const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const reply = `The current time is ${timeStr}.`;
+        addMessage("ULTRON VA", reply, "assistant");
+        speak(reply);
+        return;
+    }
+
+    if (lowerMessage === "what is the date" || lowerMessage === "date" || lowerMessage.includes("today's date")) {
+        const dateStr = new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        const reply = `Today is ${dateStr}.`;
+        addMessage("ULTRON VA", reply, "assistant");
+        speak(reply);
+        return;
+    }
+
+    if (statusText) statusText.textContent = "ULTRON is thinking...";
 
     try {
         const response = await fetch("/api/chat", {
             method: "POST",
-
             headers: {
                 "Content-Type": "application/json"
             },
-
             body: JSON.stringify({
                 message: cleanMessage
             })
         });
 
         if (!response.ok) {
-            throw new Error(
-                `Server returned ${response.status}`
-            );
+            throw new Error(`Server returned ${response.status}`);
         }
 
         const data = await response.json();
+        const answer = data.response || "I received an empty response.";
 
-        const answer =
-            data.response ||
-            "I received an empty response.";
-
-        addMessage(
-            "ULTRON VA",
-            answer,
-            "assistant"
-        );
-
+        addMessage("ULTRON VA", answer, "assistant");
         speak(answer);
 
     } catch (error) {
         console.error("Backend error:", error);
-
-        const errorMessage =
-            "Sorry. I could not connect to the ULTRON system.";
-
-        addMessage(
-            "ULTRON VA",
-            errorMessage,
-            "assistant"
-        );
-
-        statusText.textContent = "Connection error";
-
+        const errorMessage = "Sorry. I could not connect to the ULTRON neural core.";
+        addMessage("ULTRON VA", errorMessage, "assistant");
+        if (statusText) statusText.textContent = "Connection error";
         speak(errorMessage);
     }
 }
+
+
+/* =========================================================
+   TEXT CHAT FORM LISTENER
+   ========================================================= */
+
+chatForm?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (!chatInput) return;
+
+    const query = chatInput.value.trim();
+    if (query) {
+        chatInput.value = "";
+        sendMessage(query);
+    }
+});
 
 
 /* =========================================================
@@ -268,67 +290,38 @@ const SpeechRecognition =
     window.SpeechRecognition ||
     window.webkitSpeechRecognition;
 
-
 if (SpeechRecognition) {
     recognition = new SpeechRecognition();
-
-    recognition.lang = "en-IN";
-
+    recognition.lang = "en-US";
     recognition.continuous = false;
-
     recognition.interimResults = false;
 
     recognition.onstart = () => {
         isListening = true;
-
-        statusText.textContent =
-            "Listening...";
-
+        if (statusText) statusText.textContent = "Listening...";
         micButton?.classList.add("listening");
     };
 
-
     recognition.onresult = event => {
-        const transcript =
-            event.results[0][0].transcript.trim();
-
-        console.log(
-            "USER SAID:",
-            transcript
-        );
-
+        const transcript = event.results[0][0].transcript.trim();
+        console.log("USER SAID:", transcript);
         if (transcript) {
             sendMessage(transcript);
         }
     };
 
-
     recognition.onerror = event => {
-        console.error(
-            "Speech recognition error:",
-            event.error
-        );
-
+        console.error("Speech recognition error:", event.error);
         isListening = false;
-
         micButton?.classList.remove("listening");
-
-        statusText.textContent =
-            "Voice recognition error";
+        if (statusText) statusText.textContent = "Voice recognition error";
     };
-
 
     recognition.onend = () => {
         isListening = false;
-
         micButton?.classList.remove("listening");
-
-        if (
-            statusText.textContent ===
-            "Listening..."
-        ) {
-            statusText.textContent =
-                "Ready when you are";
+        if (statusText && statusText.textContent === "Listening...") {
+            statusText.textContent = "Ready when you are";
         }
     };
 }
@@ -340,9 +333,7 @@ if (SpeechRecognition) {
 
 micButton?.addEventListener("click", () => {
     if (!recognition) {
-        statusText.textContent =
-            "Voice recognition is unavailable";
-
+        if (statusText) statusText.textContent = "Voice recognition unavailable in this browser";
         return;
     }
 
@@ -354,10 +345,7 @@ micButton?.addEventListener("click", () => {
     try {
         recognition.start();
     } catch (error) {
-        console.error(
-            "Could not start recognition:",
-            error
-        );
+        console.error("Could not start recognition:", error);
     }
 });
 
@@ -366,36 +354,17 @@ micButton?.addEventListener("click", () => {
    QUICK ACTIONS
    ========================================================= */
 
-const youtubeButton =
-    document.getElementById("youtubeButton");
+const youtubeButton = document.getElementById("youtubeButton");
+const googleButton = document.getElementById("googleButton");
+const githubButton = document.getElementById("githubButton");
 
-const googleButton =
-    document.getElementById("googleButton");
-
-const githubButton =
-    document.getElementById("githubButton");
-
-
-youtubeButton?.addEventListener(
-    "click",
-    () => sendMessage("Open YouTube")
-);
-
-
-googleButton?.addEventListener(
-    "click",
-    () => sendMessage("Open Google")
-);
-
-
-githubButton?.addEventListener(
-    "click",
-    () => sendMessage("Open GitHub")
-);
+youtubeButton?.addEventListener("click", () => sendMessage("Open YouTube"));
+googleButton?.addEventListener("click", () => sendMessage("Open Google"));
+githubButton?.addEventListener("click", () => sendMessage("Open GitHub"));
 
 
 /* =========================================================
-   LOAD BROWSER VOICES
+   VOICE INITIALIZATION
    ========================================================= */
 
 if ("speechSynthesis" in window) {
@@ -404,5 +373,4 @@ if ("speechSynthesis" in window) {
     };
 }
 
-
-console.log("ULTRON VA frontend loaded.");
+console.log("ULTRON VA frontend initialized.");

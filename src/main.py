@@ -1,5 +1,11 @@
-import speech_recognition as sr
+import os
+import sys
+from pathlib import Path
 
+# Ensure src directory is available in sys.path
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+import speech_recognition as sr
 from tts import speak
 from commands import process_command
 from ai_agent import ask_ai
@@ -47,12 +53,12 @@ def main():
 
         response, should_exit = process_command(command)
 
-        # If it is not a built-in command,
-        # send it to our local Llama AI.
+        # Send unknown questions to Gemini AI
         if response.startswith("You said"):
             print("Assistant: Thinking...")
             response = ask_ai(command)
 
+        # Only ONE place speaks the response
         print(f"Assistant: {response}")
         speak(response)
 

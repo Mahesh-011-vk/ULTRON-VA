@@ -1274,3 +1274,104 @@ body::before {
         align-items: center;
     }
 }
+
+
+/* =========================================================
+   TOPBAR ACTIONS & GITHUB BUTTON
+   ========================================================= */
+
+.topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.github-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 14px;
+    border-radius: 99px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border);
+    color: var(--text);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: all 0.2s ease;
+}
+
+.github-link-btn:hover {
+    background: rgba(255, 32, 32, 0.14);
+    border-color: rgba(255, 32, 32, 0.45);
+    color: #fff;
+    box-shadow: 0 0 14px var(--red-glow);
+}
+
+.github-icon {
+    font-size: 13px;
+    color: var(--red-bright);
+}
+
+/* =========================================================
+   CHAT INPUT FORM
+   ========================================================= */
+
+.chat-form {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+    align-items: center;
+}
+
+.chat-input {
+    flex: 1;
+    background: rgba(14, 16, 20, 0.94);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 13px 18px;
+    color: var(--text);
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.chat-input::placeholder {
+    color: var(--muted);
+}
+
+.chat-input:focus {
+    border-color: var(--red-bright);
+    box-shadow: 0 0 16px var(--red-glow);
+}
+
+.chat-send-btn {
+    background: linear-gradient(135deg, var(--red-bright), #b80000);
+    border: 1px solid rgba(255, 80, 80, 0.4);
+    color: #fff;
+    border-radius: 12px;
+    padding: 13px 22px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.chat-send-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0 18px var(--red-glow);
+}
+
+.chat-send-btn:active {
+    transform: translateY(0);
+}
+
+.send-icon {
+    font-size: 12px;
+}

@@ -44,9 +44,21 @@
 
         </nav>
 
-        <div class="system-status">
-            <span class="status-dot"></span>
-            <span id="statusText">Ready when you are</span>
+        <div class="topbar-actions">
+            <a
+                href="https://github.com/Mahesh-011-vk/ULTRON-VA"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="github-link-btn"
+                aria-label="GitHub Repository"
+            >
+                <span class="github-icon">⌘</span>
+                <span>GitHub</span>
+            </a>
+            <div class="system-status">
+                <span class="status-dot"></span>
+                <span id="statusText">Ready when you are</span>
+            </div>
         </div>
 
     </header>
@@ -277,7 +289,7 @@
 
                         <p>
                             ULTRON systems online. Press the microphone
-                            and speak when you're ready.
+                            and speak when you're ready, or type below.
                         </p>
 
                     </div>
@@ -285,6 +297,25 @@
                 </div>
 
             </div>
+
+            <form id="chatForm" class="chat-form">
+                <input
+                    type="text"
+                    id="chatInput"
+                    class="chat-input"
+                    placeholder="Type a message or command to ULTRON... (or use microphone)"
+                    autocomplete="off"
+                >
+                <button
+                    type="submit"
+                    id="sendButton"
+                    class="chat-send-btn"
+                    aria-label="Send message"
+                >
+                    <span>Send</span>
+                    <span class="send-icon">➤</span>
+                </button>
+            </form>
 
         </section>
 

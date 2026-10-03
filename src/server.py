@@ -1,9 +1,13 @@
+import os
+import sys
+from pathlib import Path
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 
-from ai_agent import ask_ai
+# Ensure src directory is available in sys.path
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-import os
+from ai_agent import ask_ai
 
 app = Flask(
     __name__,
@@ -19,10 +23,20 @@ def home():
     return send_from_directory("../web", "index.html")
 
 
+@app.route("/health", methods=["GET"])
+def health():
+    return jsonify({
+        "status": "healthy",
+        "service": "ultron-va",
+        "gemini_configured": bool(os.getenv("GEMINI_API_KEY")),
+        "model": "gemini-2.5-flash",
+        "version": "2.0.0"
+    }), 200
+
+
 @app.route("/api/chat", methods=["POST"])
 def chat():
     data = request.get_json(silent=True) or {}
-
     message = data.get("message", "").strip()
 
     if not message:
@@ -38,15 +52,15 @@ def chat():
 
 
 if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
     print("===================================")
     print("           ULTRON VA")
     print("===================================")
-    print("Server running at:")
-    print("http://127.0.0.1:5000")
+    print(f"Server running at: http://0.0.0.0:{port}")
     print("===================================")
 
     app.run(
-        host="127.0.0.1",
-        port=5000,
-        debug=True
+        host="0.0.0.0",
+        port=port,
+        debug=False
     )
