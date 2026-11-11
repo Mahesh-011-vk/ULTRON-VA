@@ -119,7 +119,7 @@ Open your browser at **`http://localhost:5000`**.
 This project includes a native `render.yaml` blueprint for 1-click cloud deployments.
 
 1. Fork or push this repository to your GitHub account: `https://github.com/Mahesh-011-vk/ULTRON-VA`
-2. In the [Render Dashboard](https://dashboard.render.com/), click **New +** → **Blueprint** (or **Web Service**).
+2. In the [Render Dashboard](https://dashboard.render.com/), click **New +** → **Blueprint** (or **Web Service**)
 3. Connect your repository.
 4. Set the following environment variable:
    - `GEMINI_API_KEY`: Your Google Gemini API Key.
