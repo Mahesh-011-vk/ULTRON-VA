@@ -12,7 +12,7 @@
 
 ### 🌐 [Click Here to Launch ULTRON VA on Render](https://ultron-va.onrender.com/)
 
-**ULTRON VA** is an advanced, voice-controlled AI assistant with a futuristic Ultron-inspired interface, powered by **Google Gemini 2.5 Flash** and modern browser speech recognition & synthesis.
+**ULTRON VA** is an advanced, voice-controlled AI assistant with a futuristic Ultron-inspired interface, powered by **Google Gemini 2.5 Flash** and modern browser speech recognition & synthesis
 
 </div>
 
