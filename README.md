@@ -27,7 +27,7 @@
 - 🚀 **Built-in Web Commands**: Quick action cards and voice-triggered shortcuts to launch YouTube, Google Search, and GitHub.
 - 🕒 **Instant Time & Date**: Immediate offline response for current time and date inquiries.
 - 🎨 **Cybernetic 3D Interface**: Glowing arc-reactor aura, animated pulse indicators, and responsive cyberpunk styling.
-- ☁️ **Production Cloud Ready**: Deployed on Render with Gunicorn, Blueprint infrastructure-as-code (`render.yaml`), and automated `/health` checks.
+- ☁️ **Production Cloud Ready**: Deployed on Render with Gunicorn, Blueprint infrastructure-as-code (`render.yaml`), and automated `/health` checks
 
 ---
 
