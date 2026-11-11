@@ -22,7 +22,7 @@
 
 - 🎙️ **Full Voice Control**: Hands-free voice commands powered by Web Speech Recognition (`webkitSpeechRecognition`).
 - 🔊 **Futuristic Voice Synthesis**: Custom-calibrated low-pitch, high-clarity Ultron vocal synthesis (`SpeechSynthesisUtterance`).
-- 💬 **Dual Interaction Modes**: Seamlessly switch between voice microphone and a responsive text chat input bar.
+- 💬 **Dual Interaction Modes**: Seamlessly switch between voice microphone and a responsive text chat input bar
 - ⚡ **Google Gemini 2.5 Flash Engine**: Powered by Google's cutting-edge `gemini-2.5-flash` model via the `google-genai` SDK for ultra-fast, intelligent, voice-optimized answers.
 - 🚀 **Built-in Web Commands**: Quick action cards and voice-triggered shortcuts to launch YouTube, Google Search, and GitHub.
 - 🕒 **Instant Time & Date**: Immediate offline response for current time and date inquiries.
